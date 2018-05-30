@@ -33,6 +33,7 @@ public class LogoutController extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("ViewLogoutDone.jsp");
 	    if (dispatcher != null) dispatcher.forward(request, response);
 
+	    //TODO: debemos pasar el value o nombre de la cookie a eliminar
 		Cookie cookie = new Cookie("name","");
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);
