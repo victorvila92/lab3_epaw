@@ -1,6 +1,5 @@
 package utils;
 
-import utils.Querys;
 import models.DAO;
 
 import java.sql.ResultSet;

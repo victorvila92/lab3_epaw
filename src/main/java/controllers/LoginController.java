@@ -35,19 +35,28 @@ public class LoginController extends HttpServlet {
 		BeanLogin login = new BeanLogin();
 		Boolean cookieFound = false;
 	    try {
-			
+
 	    	BeanUtils.populate(login, request.getParameterMap());
 
-			Cookie rememberCookieList[] = request.getCookies();
+			Cookie[] rememberCookieList = request.getCookies();
 
 			if (rememberCookieList != null && rememberCookieList.length > 0){
+				for(Cookie rememberCookie : rememberCookieList){
+					String name = rememberCookie.getName();
+					String value = rememberCookie.getValue();
 
-				for (Cookie remeberCookie : rememberCookieList){
-					if(remeberCookie.getName().equals("name")){
+					if(name.equals("user")) {
 						cookieFound = true;
+
 						System.out.println("Welcome Again!");
+						Cookie cookie = new Cookie("user", value);
+						cookie.setHttpOnly(true);
+						cookie.setMaxAge(50);
+						response.addCookie(cookie);
+
 						RequestDispatcher dispatcher = request.getRequestDispatcher("ViewLoginDone.jsp");
 						dispatcher.forward(request, response);
+						break;
 					}
 				}
 			}
@@ -55,20 +64,18 @@ public class LoginController extends HttpServlet {
 			if(!cookieFound){
 				if (login.isComplete()) {
 					if (UserUtils.checkUsernameAndPassword(login.getUser(), md5.encrypt(login.getPassword())).next()) {
-						System.out.println("User FOUND");
 
 						HttpSession session = request.getSession();
 						session.setAttribute("user", login.getUser());
 						session.setAttribute("password", login.getPassword());
 
-						Cookie cookie = new Cookie("name", login.getUser());
+						Cookie cookie = new Cookie("user", login.getUser());
 						response.addCookie(cookie);
 
 						RequestDispatcher dispatcher = request.getRequestDispatcher("ViewLoginDone.jsp");
 						dispatcher.forward(request, response);
 
 					} else {
-						System.out.println("User NOT FOUND");
 						request.getRequestDispatcher("ViewLoginForm.jsp").include(request, response);
 					}
 				}else {
