@@ -19,7 +19,6 @@ public class LoginController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private encryptionUtils md5 = new encryptionUtils();
-	private static String CURRENT_USER = "";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -44,8 +43,7 @@ public class LoginController extends HttpServlet {
 			if (rememberCookieList != null && rememberCookieList.length > 0){
 
 				for (Cookie remeberCookie : rememberCookieList){
-					if(CURRENT_USER.equals(remeberCookie.getValue()) || login.getUser().equals(remeberCookie.getValue())){
-						CURRENT_USER = login.getUser();
+					if(remeberCookie.getName().equals("name")){
 						cookieFound = true;
 						System.out.println("Welcome Again!");
 						RequestDispatcher dispatcher = request.getRequestDispatcher("ViewLoginDone.jsp");
@@ -66,7 +64,6 @@ public class LoginController extends HttpServlet {
 						Cookie cookie = new Cookie("name", login.getUser());
 						response.addCookie(cookie);
 
-						CURRENT_USER = login.getUser();
 						RequestDispatcher dispatcher = request.getRequestDispatcher("ViewLoginDone.jsp");
 						dispatcher.forward(request, response);
 
