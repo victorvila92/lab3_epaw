@@ -27,7 +27,7 @@ public class UserUtils {
         return result;
     }
     
-    public static ResultSet checkMailAndUsername(String mail, String username) throws Exception {
+    private static ResultSet checkMailAndUsername(String mail, String username) throws Exception {
     	DAO dao = new DAO();
     	result = dao.executeSQL(Querys.getUserQueryFromEmailAndUsername(username, mail));
     	return result;

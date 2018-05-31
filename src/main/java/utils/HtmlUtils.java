@@ -20,8 +20,6 @@ public class HtmlUtils {
             String password = null;
             if(result.getString("password") != null){
                 password = result.getString("password");
-            } else{
-            	System.out.println("PutaColau");
             }
             String description = result.getString("description");
             Integer phoneNumber = result.getInt("phoneNumber");

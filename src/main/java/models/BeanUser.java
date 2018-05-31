@@ -45,23 +45,19 @@ public class BeanUser implements Serializable  {
 	
 	/*Setters*/
 	public void setUser(String user){
-		System.out.println("Filling user field");
 		this.user=user;
 		
 	}
 	
 	public void setMail(String mail){
-		System.out.println("Filling mail field");
 		this.mail = mail;
 	}
 	
 	public void setPassword(String password){
-		System.out.println("Filling password field");
 		this.password = md5.encrypt(password);
 	}
 	
 	public void setConfirmPassword(String password){
-		System.out.println("Filling confirm password field");
 		this.confirmPassword = this.password;
 	}
 	

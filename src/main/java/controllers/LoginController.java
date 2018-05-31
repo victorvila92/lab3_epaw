@@ -47,11 +47,8 @@ public class LoginController extends HttpServlet {
 
 					if(name.equals("user")) {
 						cookieFound = true;
-
-						System.out.println("Welcome Again!");
+						System.out.println("Welcome Again "+ value + "!");
 						Cookie cookie = new Cookie("user", value);
-						cookie.setHttpOnly(true);
-						cookie.setMaxAge(50);
 						response.addCookie(cookie);
 
 						RequestDispatcher dispatcher = request.getRequestDispatcher("ViewLoginDone.jsp");
@@ -64,7 +61,7 @@ public class LoginController extends HttpServlet {
 			if(!cookieFound){
 				if (login.isComplete()) {
 					if (UserUtils.checkUsernameAndPassword(login.getUser(), md5.encrypt(login.getPassword())).next()) {
-
+						System.out.println("You're now logged " + login.getUser());
 						HttpSession session = request.getSession();
 						session.setAttribute("user", login.getUser());
 						session.setAttribute("password", login.getPassword());
@@ -77,6 +74,7 @@ public class LoginController extends HttpServlet {
 
 					} else {
 						request.getRequestDispatcher("ViewLoginForm.jsp").include(request, response);
+						System.out.println("User " + login.getUser() + " not in Database or wrong password.");
 					}
 				}else {
 					request.setAttribute("login",login);
@@ -97,7 +95,6 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		System.out.println("DOPOST HERE.");
 		doGet(request, response);
 	}
 

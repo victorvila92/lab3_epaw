@@ -10,7 +10,6 @@ public class encryptionUtils {
 	public encryptionUtils(){}
 	
 	public String encrypt(String password){
-		System.out.println(password);
 		password += SECRET_STRING;
 		
 		try{
@@ -24,7 +23,6 @@ public class encryptionUtils {
 			while(md5.length() < 32){
 				md5 = "0"+ md5;
 			}
-			System.out.println("MD5 returned: " + md5);
 			return md5;
 			
 		}catch(Exception e){

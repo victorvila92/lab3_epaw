@@ -35,42 +35,20 @@ public class RegisterController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-	   //System.out.println("RegisterController.");
 	   BeanUser user = new BeanUser();
-
-
 	   RequestDispatcher dispatcher = null;
-	   
 
-	   
-	   
 	   try {
 		
 		   BeanUtils.populate(user, request.getParameterMap());
-	
-		   //System.out.println("USER: " + user.getUser());
-		   //System.out.println("USERPASSWORD: " + user.getPassword());
-		   //System.out.println("REQUEST: " + request.getParameterMap());
-		   
-		   
-		   if (user.isComplete()) {
-			   /*
-			    * 
-			    *  System.out.println("INSERTING into DB");
-			   UserService.insertUser(user.getUser(),user.getMail(),user.getPassword());
-			   response.getWriter().append(buildResponseForm(UserService.getUsers()));
-			    */
-			   //System.out.println("INSERTING into DB");
-			   UserUtils.insertUser(user.getUser(),user.getMail(),user.getPassword());
-			   response.getWriter().append(HtmlUtils.buildResponseForm(UserUtils.getUsers()));
 
-			   
-			   //dispatcher = request.getRequestDispatcher("ViewLoginForm.jsp");
-			   //dispatcher.forward(request, response);
+		   if (user.isComplete()) {
+			   UserUtils.insertUser(user.getUser(),user.getMail(),user.getPassword());
+			   System.out.println("User: " + user.getUser() + " inserted.");
+			   response.getWriter().append(HtmlUtils.buildResponseForm(UserUtils.getUsers()));
 		   
 		   } 
 		   else {
-		
 			   request.setAttribute("user",user);
 			   dispatcher = request.getRequestDispatcher("ViewRegisterForm.jsp");
 			   dispatcher.forward(request, response);
@@ -78,7 +56,7 @@ public class RegisterController extends HttpServlet {
 		   }
 	   
 	   } catch (Exception exception) {
-		   if(exception.getMessage() == "User already in DB."){
+		   if(exception.getMessage().equals("User already in DB.")){
 				int[] error = {1,0};
 				user.setError(error);
 				request.setAttribute("user",user);
@@ -86,7 +64,7 @@ public class RegisterController extends HttpServlet {
 					dispatcher.forward(request, response);
 				}
 			}
-			else if(exception.getMessage() == "Mail already in use.") {
+			else if(exception.getMessage().equals("Mail already in use.")) {
 				int[] error = {1,1};
 				user.setError(error);
 				request.setAttribute("user",user);

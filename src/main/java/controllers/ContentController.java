@@ -30,7 +30,6 @@ public class ContentController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String content = (String)request.getParameter("content");
-		System.out.println("ContentController, loading: " + content);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(content);
 		dispatcher.forward(request, response);
 		
